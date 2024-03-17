@@ -13,7 +13,7 @@ ARCHITECTURE behavior OF mux_2_tb IS
     END COMPONENT;
 
     SIGNAL SW_tb : STD_LOGIC_VECTOR(8 downto 0);
-    SIGNAL LEDR : STD_LOGIC_VECTOR(3 DOWNTO 0);
+    SIGNAL LEDR_tb: STD_LOGIC_VECTOR(3 DOWNTO 0);
 BEGIN
     dut: mux_2 PORT MAP (
         SW => SW_tb,
