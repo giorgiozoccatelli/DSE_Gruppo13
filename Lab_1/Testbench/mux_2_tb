@@ -23,20 +23,18 @@ BEGIN
     );
 
 	PROCESS
-    BEGIN
-        -- Configurazione 1: SW(8) = '0', SW(7 downto 4) = "1010", SW(3 downto 0) = "1111"
-        SW_tb <= "0101101111";
-        WAIT FOR 10 ns;
-        WAIT;
+   BEGIN
+			-- Configurazione 1: SW(8) = '0', SW(7 downto 4) = "1010", SW(3 downto 0) = "1111"
+			SW_tb <= "010101111";
+			WAIT FOR 10 ns;
 
-        -- Configurazione 2: SW(8) = '1', SW(7 downto 4) = "1010", SW(3 downto 0) = "1111"
-        SW_tb <= "1101101111";
-        WAIT FOR 10 ns;
-        WAIT;
+			-- Configurazione 2: SW(8) = '1', SW(7 downto 4) = "1010", SW(3 downto 0) = "1111"
+			SW_tb <= "110101111";
+			WAIT FOR 10 ns;
 
-        -- Configurazione 3: SW(8) = '1', SW(7 downto 4) = "0011", SW(3 downto 0) = "0101"
-        SW_tb <= "1100100101";
-        WAIT FOR 10 ns;
+			-- Configurazione 3: SW(8) = '1', SW(7 downto 4) = "0011", SW(3 downto 0) = "0101"
+			SW_tb <= "110001011";
+			WAIT FOR 10 ns;
         WAIT;
 	END PROCESS;
 END behavior;
