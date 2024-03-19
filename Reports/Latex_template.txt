@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Digital Systems Electronics Laboratory 01}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s294422  Lorenzo Iemmulo\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & March 21, 2024 \\ 
+            Delivery date: & March 20, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[h]
+\centering 
+\includegraphics[width=0.5\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill % Spinge il testo verso il basso
+
+\begin{center} % Centra il testo
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+\newpage
+
+\section{Introduction}
+The aim of this laboratory is to get familiar with the FPGA DE1-SoC by implementing three simple examples. In the first example we want to control the ten LEDs on the board by using ten switches while in the second and third examples we want to implement two different types of multiplexer: a four bit wide two-to-one multiplexer and a three bit wide five-to-one multiplexer.
+
+\section{Controlling the LEDs}
+\subsection{Design Entry}\label{subsec:2.1}
+First of all we want do describe the steps used to reach the design entry reported in \textit{led.vhd}. We have to open the software Quartus Prime, select \textbf{New Project Wizard}, choose the directory for the file and choose the file name which has to match the top entity name in the design file. Then we skip until the voice \textbf{Family, Design \& Board Settings} and we select the device \textbf{5CSEMA5F31C6} which is the FPGA used on Altera's DE1-SoC. We can now proceede with the following path to open a new clean sheet where we can write the actual design entry: \textbf{File} $\rightarrow$ \textbf{New} $\rightarrow$ \textbf{VHDL File}. Another important step to succesfully compile the design entry is to select a proper pin assignemt based on the FPGA we have to use to correctly refer to the pin we want to use, so we have to go to \textbf{Assignments} $\rightarrow$ \textbf{Import Assignments} and we select the file reporting  the pin assignment characterized by the \textit{.qsf} extension (in our case the file \textit{DE1\_SoC.qsf} was given). After the completion of the design entry we can compile the file to find eventual errors following the path \textbf{Processing} $\rightarrow$ \textbf{Start Compilation}.
+
+\subsection{Functional Simulation}
+The functional Simulation consists in a testbench of the device under test. Therefore we choose some input configurations to check in the next step if the design implemented works as we expect. Basically we have to create a new VHDL file following the exact steps of \hyperref[subsec:2.1]{section 2.1}.
+\begin{figure}[h]
+\centering 
+\includegraphics[width=0.5\textwidth]{foto1.PNG} 
+\caption{Chosen configurations}
+\label{fig:foto1} 
+\end{figure}
+We can notice looking at Figure 1 that the three configurations should show these results:
+\begin{enumerate}
+    \item Alternating lit LEDs
+    \item Half of the LEDs lit half off
+    \item Complementary configuration of configuration number 2
+\end{enumerate}
+
+\subsection{Synthesis}
+
+\newpage
+\section{2-to-1 Multiplexer}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\newpage
+\section{5-to-1 Multiplexer}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\end{document}
