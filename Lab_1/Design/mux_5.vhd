@@ -9,9 +9,17 @@ ENTITY mux_5 IS
 END ENTITY mux_5;
 
 ARCHITECTURE behavior OF mux_5 IS
+	SIGNAL U : STD_LOGIC_VECTOR(2 downto 0);
+    SIGNAL V : STD_LOGIC_VECTOR(2 downto 0);
+    SIGNAL W : STD_LOGIC_VECTOR(2 downto 0);
+
 BEGIN
     PROCESS (SW)
     BEGIN
+	    U <= "101";
+		V <= "010";
+		W <= "111";
+
 		IF SW(8 DOWNTO 6) = "011" THEN
 			LEDR <= SW(2 DOWNTO 0);
 		ELSIF SW(8 DOWNTO 6) = "100" THEN
@@ -23,11 +31,11 @@ BEGIN
 		ELSIF SW(8 DOWNTO 6) = "111" THEN
 			LEDR <= SW(5 DOWNTO 3);
 		ELSIF SW(8 DOWNTO 6) = "000" THEN
-			LEDR <= "101";
+			LEDR <= U;
 		ELSIF SW(8 DOWNTO 6) = "001" THEN
-			LEDR <= "010";
+			LEDR <= V;
 		ELSIF SW(8 DOWNTO 6) = "010" THEN
-			LEDR <= "111";	
+			LEDR <= W;	
 		END IF;
     END PROCESS;
 END behavior;
