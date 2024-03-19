@@ -25,15 +25,15 @@ BEGIN
 	PROCESS
    BEGIN
 		
-        SW_tb <= "1010101010"; 
-
-        WAIT FOR 20 ns;
-		  
-		  SW_tb <= "1111100000";
+	  SW_tb <= "1010101010"; 
+  
+          WAIT FOR 20 ns;
+	  
+	  SW_tb <= "1111100000";
         
-		  WAIT FOR 20 ns;
+          WAIT FOR 20 ns;
 		  
-		  SW_tb <= "0000011111";
+          SW_tb <= "0000011111";
 		  			
         WAIT;
     END PROCESS;
