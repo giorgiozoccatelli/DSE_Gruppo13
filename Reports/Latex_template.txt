@@ -42,8 +42,8 @@ The aim of this laboratory is to get familiar with the FPGA DE1-SoC by implement
 \subsection{Design Entry}\label{subsec:2.1}
 First of all we want do describe the steps used to reach the design entry reported in \textit{led.vhd}. We have to open the software Quartus Prime, select \textbf{New Project Wizard}, choose the directory for the file and choose the file name which has to match the top entity name in the design file. Then we skip until the voice \textbf{Family, Design \& Board Settings} and we select the device \textbf{5CSEMA5F31C6} which is the FPGA used on Altera's DE1-SoC. We can now proceede with the following path to open a new clean sheet where we can write the actual design entry: \textbf{File} $\rightarrow$ \textbf{New} $\rightarrow$ \textbf{VHDL File}. Another important step to succesfully compile the design entry is to select a proper pin assignemt based on the FPGA we have to use to correctly refer to the pin we want to use, so we have to go to \textbf{Assignments} $\rightarrow$ \textbf{Import Assignments} and we select the file reporting  the pin assignment characterized by the \textit{.qsf} extension (in our case the file \textit{DE1\_SoC.qsf} was given). After the completion of the design entry we can compile the file to find eventual errors following the path \textbf{Processing} $\rightarrow$ \textbf{Start Compilation}.
 
-\subsection{Functional Simulation}
-The functional Simulation consists in a testbench of the device under test. Therefore we choose some input configurations to check in the next step if the design implemented works as we expect. Basically we have to create a new VHDL file following the exact steps of \hyperref[subsec:2.1]{section 2.1}.
+\subsection{Functional Simulation}\label{subsec:2.2}
+The Functional Simulation consists in a testbench of the device under test. Therefore we choose some input configurations to check in the next step if the design implemented works as we expect. Basically we have to create a new VHDL file following the exact steps of \hyperref[subsec:2.1]{section 2.1}.
 \begin{figure}[h]
 \centering 
 \includegraphics[width=0.5\textwidth]{foto1.PNG} 
@@ -58,6 +58,14 @@ We can notice looking at Figure 1 that the three configurations should show thes
 \end{enumerate}
 
 \subsection{Synthesis}
+The last step of our simulation is to emulate the behavior of the configuration in our testbench by using Modelsim. After the opening of the software we will follow this path: \textbf{File} $\rightarrow$ \textbf{New} $\rightarrow$ \textbf{Project} then under the voice \textbf{Project Name} we will match the top entity name of our project and we will choose a new directory for the simulation under the voice \textbf{Project location} (we can also rename the \textbf{Default library name}). A new screen will show up asking us which files we want to import in our simulation. We will select the voice \textbf{Add existing file} two times to select both the design entry and the testbench (in this exercise we are refering to \textit{led.vhd} and \textit{led\_tb.vhd}). It is then necessary to follow this path to assure that the design entry will be compiled before the testbench: \textbf{Compile} $\rightarrow$ \textbf{Compile Order} $\rightarrow$ \textbf{Auto Generate} (we can also manually select the wanted order).Now we can start the actual simulation by clicking on \textbf{Simulate}$\rightarrow$ \textbf{Start Simulation} and under the directory of our Default library name we select the testbench. We can notice at a first glance that there are no items in the window panel we want to analyze so we have to go under the voice \textbf{Add} $\rightarrow$ \textbf{To wave} $\rightarrow$ \textbf{All items in design} and then \textbf{Simulate} $\rightarrow$ \textbf{Run all}. 
+\begin{figure}[h]
+\centering 
+\includegraphics[width=0.5\textwidth]{foto2.JPG} 
+\caption{Wave analyzer}
+\label{fig:foto2} 
+\end{figure}
+We highlight in Figure 2 the transition between the first chosen configuration and the second chosen configuration discussed in \hyperref[subsec:2.2]{section 2.2}.
 
 \newpage
 \section{2-to-1 Multiplexer}
@@ -70,5 +78,4 @@ We can notice looking at Figure 1 that the three configurations should show thes
 \subsection{Design Entry}
 \subsection{Functional Simulation}
 \subsection{Synthesis}
-
 \end{document}
