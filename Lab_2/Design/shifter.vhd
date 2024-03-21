@@ -34,7 +34,6 @@ ARCHITECTURE Behavior OF shifter IS
 				output <= "101011100001101"; -- caso POCEP
 			elsif SW(4 downto 2) = "110" then
 				output <= "011100001101101"; -- caso OCEPP
-			end if
-			
+			end if;			
 	end process;
 END Behavior;
