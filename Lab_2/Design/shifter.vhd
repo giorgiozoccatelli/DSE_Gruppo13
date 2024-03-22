@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.all;
 
 ENTITY shifter IS
 	PORT ( input_shifter : IN STD_LOGIC_VECTOR(14 downto 0);
-		SW: IN STD_LOGIC_VECTOR(2 downto 0);
+		SW: IN STD_LOGIC_VECTOR(4 downto 2);
 		output_shifter : OUT STD_LOGIC_VECTOR(14 downto 0));
 END shifter;
 
