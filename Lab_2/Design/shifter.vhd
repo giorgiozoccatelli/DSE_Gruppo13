@@ -22,6 +22,8 @@ ARCHITECTURE Behavior OF shifter IS
 				output <= "010011000001010"; -- caso LOHEL
 			elsif SW(4 downto 2) = "110" then
 				output <= "011000001010010"; -- caso OHELL
+			else 
+				output <= "000000000000000"; --Configurazione proibita
 			end if;
 		elsif input = "100001101101011" then --2° caso CEPPO
 			if SW(4 downto 2) = "000" then
@@ -34,6 +36,8 @@ ARCHITECTURE Behavior OF shifter IS
 				output <= "101011100001101"; -- caso POCEP
 			elsif SW(4 downto 2) = "110" then
 				output <= "011100001101101"; -- caso OCEPP
+			else 
+				output <= "000000000000000"; --Configurazione proibita			
 			end if;
 		elsif input = "100001010010011" then --3° caso CELLO
 			if SW(4 downto 2) = "000" then
@@ -46,6 +50,8 @@ ARCHITECTURE Behavior OF shifter IS
 				output <= "010011100001010"; -- caso LOCEL
 			elsif SW(4 downto 2) = "110" then
 				output <= "011100001010010"; -- caso OCELL
+			else 
+				output <= "000000000000000"; --Configurazione proibita	
 			end if;
 		elsif input = "110001101101011" then --caso FEPPO
 			if SW(4 downto 2) = "000" then
@@ -58,6 +64,8 @@ ARCHITECTURE Behavior OF shifter IS
 				output <= "101011110001101"; -- caso POFEP
 			elsif SW(4 downto 2) = "110" then
 				output <= "011110001101101"; -- caso OFEPP
+			else 
+				output <= "000000000000000"; --Configurazione proibita	
 			end if;
 		end if;
 	end process;
