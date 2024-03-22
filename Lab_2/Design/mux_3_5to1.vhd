@@ -22,3 +22,4 @@ ARCHITECTURE Behavior OF mux IS
 	end process;
 END Behavior;
 
+
