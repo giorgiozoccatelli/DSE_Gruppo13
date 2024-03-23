@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Digital Systems Electronics Laboratory 01}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s294422  Lorenzo Iemmulo\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & March 21, 2024 \\ 
+            Delivery date: & March 20, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[h]
+\centering 
+%\includegraphics[width=0.5\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill % Spinge il testo verso il basso
+
+\begin{center} % Centra il testo
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+\newpage
+
+\section{Introduction}
+The aim of this laboratory is to get familiar with the FPGA DE1-SoC by implementing three simple examples. In the first example we want to control the ten LEDs on the board by using ten switches while in the second and third examples we want to implement two different types of multiplexer: a four bit wide two-to-one multiplexer and a three bit wide five-to-one multiplexer.
+
+\section{Controlling the LEDs}
+\subsection{Design Entry}\label{subsec:2.1}
+First of all we want do describe the steps used to reach the design entry reported in \textit{led.vhd}. We have to open the software Quartus Prime, select \textbf{New Project Wizard}, choose the directory for the file and choose the file name which has to match the top entity name in the design file. Then we skip until the voice \textbf{Family, Design \& Board Settings} and we select the device \textbf{5CSEMA5F31C6} which is the FPGA used on Altera's DE1-SoC. We can now proceede with the following path to open a new clean sheet where we can write the actual design entry: \textbf{File} $\rightarrow$ \textbf{New} $\rightarrow$ \textbf{VHDL File}. Another important step to succesfully compile the design entry is to select a proper pin assignemt based on the FPGA we have to use to correctly refer to the pin we want to use, so we have to go to \textbf{Assignments} $\rightarrow$ \textbf{Import Assignments} and we select the file reporting  the pin assignment characterized by the \textit{.qsf} extension (in our case the file \textit{DE1\_SoC.qsf} was given). After the completion of the design entry we can compile the file to find eventual errors following the path \textbf{Processing} $\rightarrow$ \textbf{Start Compilation}.
+
+\subsection{Functional Simulation}\label{subsec:2.2}
+The Functional Simulation consists in a testbench of the device under test. Therefore we choose some input configurations to check in the next step if the design implemented works as we expect. Basically we have to create a new VHDL file following the exact steps of \hyperref[subsec:2.1]{section 2.1}.
+\begin{figure}[h]
+\centering 
+%\includegraphics[width=0.5\textwidth]{foto1.PNG} 
+\caption{Chosen configurations}
+\label{fig:foto1} 
+\end{figure}
+We can notice looking at Figure 1 that the three configurations should show these results:
+\begin{enumerate}
+    \item Alternating lit LEDs
+    \item Half of the LEDs lit half off
+    \item Complementary configuration of configuration number 2
+\end{enumerate}
+
+\subsection{Synthesis}
+The last step of our simulation is to emulate the behavior of the configuration in our testbench by using Modelsim. After the opening of the software we will follow this path: \textbf{File} $\rightarrow$ \textbf{New} $\rightarrow$ \textbf{Project} then under the voice \textbf{Project Name} we will match the top entity name of our project and we will choose a new directory for the simulation under the voice \textbf{Project location} (we can also rename the \textbf{Default library name}). A new screen will show up asking us which files we want to import in our simulation. We will select the voice \textbf{Add existing file} two times to select both the design entry and the testbench (in this exercise we are refering to \textit{led.vhd} and \textit{led\_tb.vhd}). It is then necessary to follow this path to assure that the design entry will be compiled before the testbench: \textbf{Compile} $\rightarrow$ \textbf{Compile Order} $\rightarrow$ \textbf{Auto Generate} (we can also manually select the wanted order).Now we can start the actual simulation by clicking on \textbf{Simulate}$\rightarrow$ \textbf{Start Simulation} and under the directory of our Default library name we select the testbench. We can notice at a first glance that there are no items in the window panel we want to analyze so we have to go under the voice \textbf{Add to} $\rightarrow$ \textbf{Wave} $\rightarrow$ \textbf{All items in design} and then \textbf{Simulate} $\rightarrow$ \textbf{Run all}. 
+\begin{figure}[h]
+\centering 
+%\includegraphics[width=0.5\textwidth]{foto2.JPG} 
+\caption{Wave analyzer}
+\label{fig:foto2} 
+\end{figure}
+We highlight in Figure 2 the transition between the first chosen configuration and the second chosen configuration discussed in \hyperref[subsec:2.2]{section 2.2}.
+
+\newpage
+\section{2-to-1 Multiplexer}
+\subsection{Design Entry}\label{subsec:3.1}
+We continue by following almost the same procedure seen before.
+\\ With Quartus Prime opened, we open a new project and we name it \textit{mux\_2.vhd} (we make it match the entity name in the design file). With the same procedure we select the device 5CSEMA5F31C6, thus we create a VHDL file where we will be writing the design file.
+\\ In this project we implement a 4-bits wide 2to1 multiplexer, using the switches (the input, defined as a vector of dimension equal to 8) and the LEDs (the output, defined as a vector of dimension equal to 4). The configuration we are following is:
+\begin{enumerate}
+    \item The SW\textsubscript{7-4} refers to the signal \textbf{\textit{x}}, which is one of the 4-bits wide input signal of the multiplexer.
+    \item The SW\textsubscript{3-0} refers to the signal \textbf{\textit{y}}, the other 4-bits wide input signal.
+    \item The SW\textsubscript{8} refers to the signal \textbf{\textit{s}} which is the controlling signal of the multiplexer.
+\end{enumerate}
+Now we continue by using the truth table and finish the design.
+\\We remember to put in the project the pin assignment, then we are ready to start the simulation and see if there are any errors.
+\subsection{Functional Simulation}
+We proceed with the Functional Simulation, creating the testbench VHDL file, named \textit{mux\_2\_tb.vhd} where we check if the design implemented works ad expected.
+We use the configuration shown in the Figure 3 
+
+\begin{figure}[h]
+\centering 
+\includegraphics[width=0.5\textwidth]{immagine1.png}
+\caption{Chosen configurations}
+\label{fig:foto1} 
+\end{figure}
+
+
+We can see that the first configuration shows the control signal SW\textsubscript{8} is equal to zero, while in the other two configuration the control signal is equal to one.
+
+\subsection{Synthesis}
+We continue by emulating the behavior of the testbench configuration using ModelSim. Following the same steps, we start the simulation getting the waveform shown below.
+\\
+\begin{figure}[h]
+\centering 
+\includegraphics[width=0.5\textwidth]{immagine2.png} 
+\caption{Wave analyzer}
+\label{fig:foto2} 
+\end{figure}
+
+
+
+\newpage
+\section{5-to-1 Multiplexer}
+\subsection{Design Entry}\label{subsec:4.1}
+Following the same procedure as for the previous points and keeping the settings unchanged, a new project named \textit{mux\_5.vhd} is created. We proceed with the description of the design of a multiplexer 5to1 on 3 bits, that transforms 5 input signals into 1 output signal using respectively SW and LEDR. 
+\\Following the indications of the delivery, a design is realized taking into account the values of the 3 selectors of the multiplexer and associating the respective value as indicated on the \textbf{truth table}.
+This procedure has to be implemented not before having made two clarifications. 
+\begin{enumerate}
+    \item With the signal \textbf{\textit{x}} we are alluding to SW\textsubscript{0-2}, while with \textbf{\textit{y}} we are meaning SW\textsubscript{3-5}. 
+    \item The 3-bit signals \textbf{\textit{u}}, \textbf{\textit{v}} and \textbf{\textit{w}} are preassigned to three different given values. 
+\end{enumerate} 
+At this point we can actually realize the design distinguishing the different cases indicated by the truth table. This is done by assigning to SW\textsubscript{8-6} certain values corresponding to the selectors and evaluating the output \textit{m}.
+\subsection{Functional Simulation}
+The \textit{mux\_5\_tb.vhd} file describes how the DUT (Device Under Test, in this case a multiplexer) behaves by assigning a specific value to the SW\_tb signal, whose first 3 values, corresponding to SW\textsubscript{8-6}  (selectors s\textsubscript{0}, s\textsubscript{1} and s\textsubscript{2}), determine the output m. Different configurations of SW\_tb are therefore implemented in order to cover all the possible cases indicated in the truth table. 
+\subsection{Synthesis}
+The correct functioning of the implementation is verified by the evolution of the logical signals, as shown in Figure5 below.\\Every 20 ns a configuration change is made with a consequent change in the trend of the logical waves, but always in accordance with the expected results.
+\begin{figure}[h]
+    \centering 
+    \includegraphics[width=1\textwidth]{immagine2.png} 
+    \caption{Mux5to1 wave analyzer} 
+\end{figure}
+\end{document}
