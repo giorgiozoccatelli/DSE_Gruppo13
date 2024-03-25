@@ -1,0 +1,26 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY full_adder IS
+	PORT (a,b: IN std_logic;
+			carry_in : IN std_logic;
+			carry_out, sum: OUT std_logic
+			);
+END full_adder;
+
+
+architecture behavior of full_adder is
+	signal sel : std_logic;
+	begin
+			sel <= a xor b;
+			sum <= carry_in xor sel;
+
+		process(b,sel, carry_in)
+		begin
+			if sel = '0' then
+				carry_out <= b;
+			else
+				carry_out <= carry_in;
+			end if;
+		end process;
+end behavior;
