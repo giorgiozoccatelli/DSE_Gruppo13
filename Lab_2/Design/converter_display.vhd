@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 ENTITY converter_display IS
 	PORT ( SW : IN unsigned(3 DOWNTO 0);
-			 HEX0,HEX1 : OUT STD_LOGIC_VECTOR(0 to 6)
+			 HEX1,HEX0 : OUT STD_LOGIC_VECTOR(0 to 6)
 			);
 	END converter_display;
 	
@@ -29,6 +29,6 @@ signal a2: std_logic;
 
 BEGIN
 converter0: converter PORT MAP (SW,a1,a2);
-display0: display PORT MAP (a1,a2,HEX0, HEX1);
+display0: display PORT MAP (a1,a2,HEX1, HEX0);
 END behavior;
 
