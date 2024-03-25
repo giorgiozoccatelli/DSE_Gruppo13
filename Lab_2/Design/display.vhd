@@ -54,8 +54,8 @@ begin
                 HEX0 <= "1001100"; -- 4 in formato 7 segmenti
             when "0101" =>
                 HEX0 <= "0100100"; -- 5 in formato 7 segmenti
-				when others =>
-					HEX0 <= "1111111";  -- In caso di valore non valido, disattiva tutti i segmenti
+	    when others =>
+		HEX0 <= "1111111";  -- In caso di valore non valido, disattiva tutti i segmenti
 			end case;
 		end if;
 	end process;
