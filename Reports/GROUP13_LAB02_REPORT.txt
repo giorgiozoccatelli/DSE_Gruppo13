@@ -1,0 +1,63 @@
+\documentclass{article}
+\sloppy
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Digital Systems Electronics Laboratory 02}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s294422  Lorenzo Iemmulo\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & April 1, 2024 \\ 
+            Delivery date: & March 31, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.6\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill % Spinge il testo verso il basso
+
+\begin{center} % Centra il testo
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\section{Controlling a 7-segment display}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\section{Multiplexing the 7-segment display output}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+
+\section{Binary to decimal converter}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\section{Binary-to-BCD converter}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+
+\end{document}
