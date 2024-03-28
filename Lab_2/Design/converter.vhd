@@ -1,32 +1,32 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity converter is
-    Port (
-        SW : in unsigned(3 downto 0);  
-        m : out std_logic_vector(3 downto 0);  
-        z : out std_logic  
-    );
+	port (SW : in unsigned(3 downto 0);
+			 m : out std_logic_vector(3 downto 0);
+          z : out std_logic
+         );
 end converter;
 
-architecture Behavioral of converter is
+architecture behavior of converter is
 begin
-    process(SW)
+process(SW)
     begin
-        if to_integer(SW) > 9 then
-            z <= '1';  
-            case SW is
-                when "1010" => m <= "0000";  -- m = 0
-                when "1011" => m <= "0001";  -- m = 1
-                when "1100" => m <= "0010";  -- m = 2
-                when "1101" => m <= "0011";  -- m = 3
-                when "1110" => m <= "0100";  -- m = 4
-                when "1111" => m <= "0101";  -- m = 5
-					 when others => m <= "1111";
-            end case;
-        else
-            z <= '0'; 
+		
+		case to_integer(SW) is
+			when 0 to 9 =>
+				z <= '0';
+				m <= std_logic_vector(to_unsigned(to_integer(SW), 4));
+			when 10 to 19 =>
+				z <= '1';
+				m <= std_logic_vector(to_unsigned(to_integer(SW) - 10, 4));
+			when others =>
+				z <= '1';
+		end case;
+
+   end process;
+end behavior;	
             m <= std_logic_vector(SW);  
         end if;
     end process;
