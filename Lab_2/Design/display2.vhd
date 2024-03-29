@@ -14,7 +14,7 @@ architecture behavioral of display2 is
 		
 		case z is
 			when "0000" => --0
-				HEX1 <= "1111111";
+				HEX1 <= "0000001";
 			when "0001" => --1
 				HEX1 <= "1001111";
 			when "0010" => --2
