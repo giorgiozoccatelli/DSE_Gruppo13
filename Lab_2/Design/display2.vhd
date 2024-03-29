@@ -39,7 +39,7 @@ architecture behavioral of display2 is
 		
 		case m is 
 			when "0000" => --0
-				HEX0 <= "1111111";
+				HEX0 <= "0000001";
 			when "0001" => --1
 				HEX0 <= "1001111";	
 			when "0010" => --2
