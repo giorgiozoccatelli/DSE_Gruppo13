@@ -23,12 +23,9 @@ process(SW)
 				m <= std_logic_vector(to_unsigned(to_integer(SW) - 10, 4));
 			when others =>
 				z <= '1';
+           			m <= std_logic_vector(SW);  
 		end case;
 
    end process;
 end behavior;	
-            m <= std_logic_vector(SW);  
-        end if;
-    end process;
-end Behavioral;
 
