@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 entity display is
 	port(m: in std_logic_vector(3 downto 0);
-			z: std_logic;
+			z: in std_logic;
 		  HEX1, HEX0 : out std_logic_vector(0 to 6)
 		  );
 end display;
