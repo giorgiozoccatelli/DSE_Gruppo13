@@ -1,0 +1,91 @@
+\documentclass{article}
+\sloppy
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Digital Systems Electronics Laboratory 02}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s294422  Lorenzo Iemmulo\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & April 1, 2024 \\ 
+            Delivery date: & March 31, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+\centering 
+%\includegraphics[width=0.6\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill % Spinge il testo verso il basso
+
+\begin{center} % Centra il testo
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+\newpage
+
+\section{Introduction}
+
+\section{Controlling a 7-segment display}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\section{Multiplexing the 7-segment display output}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+
+\section{Binary to decimal converter}
+\subsection{Design Entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\section{Binary-to-BCD converter}
+\subsection{Design Entry}
+Similarly to the previous excersise, the description of a top-level design is created through the use of two different components:
+\begin{itemize}
+\item \textbf{converter\_Binary-to-BCD}
+\item \textbf{display}
+\end{itemize} 
+The first, described in \textit{converter2.vhd}, has the task of converting the 6-bit binary number (input) in the respective decimal number (output) using the  BCD (Binary Coded Decimal) representation that allows to obtain a decimal number from the combination of 4-bit binary representations. 
+\\Before realizing the actual design of the converter, I have to make some considerations.\\ A 6-bit binary number, has at most 2\textsuperscript{6}-1 representations, meaning that the maximum decimal value is 63. This also means that the first digit \textbf{\textit{z}} that appears on the HEX1 display varies from a minimum value of 0 to 6, while the second, that appears on the HEX0 display, ie \textbf{\textit{m}} can vary from 0 up to 9.\\ To implement this, multiple comparators are used to divide different cases on the basis of the value of the tens digit, that is \textit{z} and then determining the value of \textit{m} or ones digit in the following way: 
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{design_lab2_es4.PNG} 
+    \caption{Binary-to-BCD converter design description}
+\end{figure}
+\\For the description of the display design,we use the \textit{display.vhd} code used in excersise 2 (section 2.1) that performs the same function. 
+\subsection{Functional Simulation}
+To test the correct functioning of the design, a testbech called \textit{converter2\_display\_tb.vhd} is created, in which 6-bit test values are assigned to SW\_tb. The following configurations are chosen to cover all possible eventualities.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.22\textwidth]{tb_lab2_es4.PNG} 
+    \caption{Binary-to-BCD converter testbench configurations}
+    \label{fig:testbench_es4}
+\end{figure}
+\\As it can be seen from the \hyperref[fig:testbench_es4]{Figure }, the test signals also verify the functioning of the blank display, in addition to the most classic numerical configurations.
+\subsection{Synthesis}
+SW\_tb signals are then analysed using ModelSim. The correct functioning of the implementation is verified by the evolution of the logical signals, as shown in \hyperref[fig:waveform_es4]{Figure } below.\\
+Every 20 ns a configuration change is made with a consequent change in the trend of the logical waves, but always in accordance with the expected results.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=1\textwidth]{waveform_es4_lab2.png} 
+    \caption{Binary-to-BCD converter wave analysis}
+    \label{fig:waveform_es4}
+\end{figure}
+\\In \hyperref[fig:waveform_es4]{Figure } we are seeing the transition between the first and the second configuration reported in section 5.2.
+\end{document}
