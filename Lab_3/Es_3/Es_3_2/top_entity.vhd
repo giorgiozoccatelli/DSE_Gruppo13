@@ -30,7 +30,7 @@ architecture behavior of top_entity is
 	end component;
         
 	component overflow is
-		port ( a, b : in signed(15 downto 0);
+		port ( cout, sign : in std_logic;
 			 sum : in signed(15 downto 0);
 			 decision : out std_logic
 			);
@@ -53,7 +53,7 @@ architecture behavior of top_entity is
 	
 	cba : cba_16bit port map(a => update_a, b => update_b, c_in => '0', c_out => c, s => update_s);
 	
-	overflow0 : overflow port map(a => update_a, b => update_b, sum => sum_out, decision => decision_tmp);
+	overflow0 : overflow port map(cout => c, sum => update_s, sign => '0', decision => decision_tmp);
 	
 	flipflop0 : flipflop port map(D => decision_tmp, Clock => Clk, Resetn => Rst, Q=> ovf);
 	
