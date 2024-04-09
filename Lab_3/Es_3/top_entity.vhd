@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity top_entity is
 	port ( a, b : in std_logic_vector(15 downto 0);
 			 s : out std_logic_vector(15 downto 0);
-			 Clk, Rst : in std_logic;
+			 Clock, Resetn : in std_logic;
 			 ovf : out std_logic
 		  );
 end top_entity;
@@ -30,7 +30,7 @@ architecture behavior of top_entity is
 	end component;
         
 	component overflow is
-		port ( a, b : in signed(15 downto 0);
+		port ( cout, sign : in std_logic;
 			 sum : in signed(15 downto 0);
 			 decision : out std_logic
 			);
@@ -41,21 +41,21 @@ architecture behavior of top_entity is
 				 Q : out STD_LOGIC);
 	end component;	
 		
-	signal update_a, update_b, update_s, sum_out: signed(15 downto 0);	
-	signal decision_tmp : std_logic;
+	signal update_a, update_b, update_s, sum_out : signed(15 downto 0);	
+	signal decision_tmp, update_c : std_logic;
 	signal s_out : signed(15 downto 0);
 	
 	begin
 
-	rca : sixteenbit_rca port map(a_tot => update_a, b_tot => update_b, carry_in => '0', s_tot => update_s);
+	rca : sixteenbit_rca port map(a_tot => update_a, b_tot => update_b, carry_in => '0', carry_out => update_c, s_tot => update_s);
 	
-	regA : regn port map(R => signed(a), Clock => Clk, Resetn => Rst, Q => update_a);
-	regB : regn port map(R => signed(b), Clock => Clk, Resetn => Rst, Q => update_b);
-	regS : regn port map(R => update_s, Clock => Clk, Resetn => Rst, Q => s_out);
+	regA : regn port map(R => signed(a), Clock => Clock, Resetn => Resetn, Q => update_a);
+	regB : regn port map(R => signed(b), Clock => Clock, Resetn => Resetn, Q => update_b);
+	regS : regn port map(R => update_s, Clock => Clock, Resetn => Resetn, Q => s_out);
 	
-	overflow0 : overflow port map(a => update_a, b => update_b, sum => sum_out, decision => decision_tmp);
+	overflow0 : overflow port map(cout => update_c, sum => update_s, sign => '0', decision => decision_tmp);
 	
-	flipflop0 : flipflop port map(D => decision_tmp, Clock => Clk, Resetn => Rst, Q=> ovf);
+	flipflop0 : flipflop port map(D => decision_tmp, Clock => Clock, Resetn => Resetn, Q=> ovf);
 	
 end behavior;
 
