@@ -1,0 +1,140 @@
+\documentclass{article}
+\sloppy
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{Digital Systems Electronics Laboratory 03}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & April 8, 2024 \\ 
+            Delivery date: & March 10, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.6\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill % Spinge il testo verso il basso
+
+\begin{center} % Centra il testo
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+
+\newpage
+\section{Introduction}
+The purpose of this laboratory experience is to implement different circuits that can execute the basic operations of addition, subtraction and multiplication between binary numbers. We will also go trough a more depth time analysis pointing out the different working frequencies of these circuits and finding out the critical paths for each case. Please notice that for the further descriptions, although we double checked that the overflow operation worked correctly on the singular testbenches, it seems to stop working when including the \textit{.vho} and \textit{.sdo} files in ModelSim.
+
+\section{4-bit Sequential RCA}
+\subsection{Design entry}
+For the first exercise we want to describe a sequential 4-bit ripple-carry adder that supports signed numbers in 2's-complement: to do so we need the following designs:
+\begin{itemize}
+    \item Three registers that will be updated every rising clock edge occurrence. Two of them will store the terms of the sum given by switches SW\textsubscript{7-4} and SW\textsubscript{3-0} and the third will store the result of the sum. This design is implemented in \textit{regn.vhd}. 
+    \item A ripple-carry adder which is the heart of our circuit will take as an input the values to sum and will give as an output the result and the carry out (in this example we are not yet implementing the subtraction so the carry in will be always set to 0). To correctly sum two 4-bit signed numbers know from the theory that we can split the circuit in four connected full adders so for this purpose we will create two designs: \textit{full\_adder.vhd} and \textit{ripple\_adder.vhd}.
+    \item After the sum operation we want to know if an overflow is occurring. We know from the theory that a 4-bit number in 2's-complement can correctly represent values from -8 to 7 and more precisely we can notice that the overflow occurs only when the carry out of the MSB is different from the MSB of the sum and at the same time the carry out must be different from the carry in of the LSB. This operation is described in \textit{overflow\_check.vhd}.
+    \item We want to visually see on the FPGA whenever an overflow is occuring so we store the result in a D-type Flip Flop that will trigger the LEDR\textsubscript{9}. The Flip Flop is described in \textit{flipflop.vhd}.
+    \item We want to visually see on the FPGA the sum displayed following the hexadecimal systems so as we did for the previous laboratory activity we need a 7-segment decoder described in \textit{display\_hexadecimal.vhd}.
+\end{itemize}
+
+All these designs are hierarchically described in a top entity \textit{fourbit\_rca.vhd} where a unique clock signal driven by KEY\textsubscript{1} and a uniqe reset signal KEY\textsubscript{0} are assigned to all the memory elements.
+\subsection{Functional Simulation}
+In this section we want to implement a testbench
+(\textit{fourbit\_rca\_tb.vhd}) to correctly simulate the behavior of our circuit. The rules to apply the testbench signals are well known but we want to point out how to  correctly implement the clock and reset signals: 
+\begin{itemize}
+    \item KEY\textsubscript{0} and KEY\textsubscript{1} are initially set to 0 which means by convention that the reset signal is high and the clock signal is down.
+    \item After giving a starting input configuration to the switches we set KEY\textsubscript{0} to 1 (reset low) and KEY\textsubscript{1} to 1 (clock high) so that the two registers of the sum will change their output following the switches configuration and the ripple-carry adder can properly sum the two values. This combinational circuit will then  give the result of the sum and the carry out to the third register and to the Flip Flop after the overflow is checked.
+    \item Without changing the state of KEY\textsubscript{0} we set KEY\textsubscript{1} to 0 and then again to 1 so that at the second rising edge of the clock we can change the output of the third register as well as the output of the Flip Flop triggering both the HEX displays and the LEDR\textsubscript{9}.
+    \item We can finish a test cycle by setting both KEY\textsubscript{1} and KEY\textsubscript{0}.
+\end{itemize}
+
+\subsection{Synthesis}
+With the synthesis we want to test the correct functioning of our circuit and we want to analyse the time constricts regarding the clock period and the worst case delay trough memory elements.
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.8\textwidth]{time_es1.png} 
+\caption{Internal delays}
+\label{fig:time_es1} 
+\end{figure}
+
+In Figure 1 we can see that using a clock signal with a period of 3 ns we obtain a circuit with a maximum operating frequency \textit{f}\textsubscript{max} equal to 406.17 Hz. The same figure also points out that our longest path trough the circuit in terms of delay is the one going from \textit{reg\_b} (one of the two register for the sum terms) to \textit{reg\_sum} (the register storing the result of the sum). By importing our testbench on ModelSim as well as the \textit{.vho} and \textit{.sdo} files we can then analyse the testbench with respect to all the internal signals delays. 
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.8\textwidth]{wave_es1.png} 
+\caption{Overall testbench}
+\label{fig:wave_es1} 
+\end{figure}
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.8\textwidth]{delay_es1.png} 
+\caption{Particular delayed transition}
+\label{fig:delay_es1} 
+\end{figure}
+
+In Figure 2 we can see an overall timing evolution of the circuit while in Figure 3 we can see as a prove of the correct delay representation the transition between the reset and the display of the sum terms -3 and -4 occurring in the second testbench configuration.
+
+\section{4-bit Sequential Adder/Subtractor}
+\subsection{Design entry}
+In this second exercise we have to slightly modify the previous circuit in order to implement also the subtraction. In particular:
+\begin{itemize}
+    \item We allocate a new switch SW\textsubscript{8} to decide if we want to execute an addition (logic value 0) or a subtraction (logic value 1).
+    \item If we want to add two numbers the circuit will work exactly as the previous one.
+    \item If we want to subtract two numbers we have to complement the second operand and introduce a carry in equal to 1 for the LSB. In practice we are making a sum between the first number and the second number with the sign changed which is the exact concept of the subtraction.
+\end{itemize}
+
+In practice the only components being changed from the previous exercise will be \textit{ripple\_adder.vhd} and the top entity \textit{fourbit\_adder\_subtractor.vhd}.
+\subsection{Functional Simulation}
+As for the previous exercise we implement a testbench with respect to the clock and reset inpunts as already stated. We will implement four different configurations:
+\begin{itemize}
+    \item An addition between two positive numbers without overflow: (+2) + (+3).
+    \item A subtraction between two negative numbers without overflow: (-3) - (-4).
+    \item A subtraction between two positive numbers without overflow: (+6) - (+4).
+    \item An addition between two positive numbers with overflow: (+7) + (+6).
+\end{itemize}
+\subsection{Synthesis}
+In the synthesis we want to test once again the correct functioning of our circuit trough the wave analysis on ModelSim as well as the internal delays introduced by the memory elements. 
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.8\textwidth]{time_es2.png} 
+\caption{Internal delays}
+\label{fig:time_es2} 
+\end{figure}
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.8\textwidth]{wave_es2.png} 
+\caption{Overall testbench}
+\label{fig:wave_es2} 
+\end{figure}
+
+In Figure XX we can see that this circuit has a maximum operating frequency \textit{f}\textsubscript{max} of 375.66 Hz while once again the longest path in terms of delay is the one going from \textit{reg\_b} (one of the two sum/subtraction terms registers) to \textit{reg\_sum} (the register where we memorize the current result value).
+
+\section{16-bit RCA, Carry-Bypass Adder and Carry-Select Adder}
+\subsection{Design entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+\section{Multiplier}
+\subsection{Design entry}
+\subsection{Functional Simulation}
+\subsection{Synthesis}
+
+
+
+
+\end{document}
