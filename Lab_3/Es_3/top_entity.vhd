@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity top_entity is
 	port ( a, b : in std_logic_vector(15 downto 0);
 			 s : out std_logic_vector(15 downto 0);
-			 Clock, Resetn : in std_logic;
+			 Clk, Rst : in std_logic;
 			 ovf : out std_logic
 		  );
 end top_entity;
@@ -49,13 +49,13 @@ architecture behavior of top_entity is
 
 	rca : sixteenbit_rca port map(a_tot => update_a, b_tot => update_b, carry_in => '0', carry_out => update_c, s_tot => update_s);
 	
-	regA : regn port map(R => signed(a), Clock => Clock, Resetn => Resetn, Q => update_a);
-	regB : regn port map(R => signed(b), Clock => Clock, Resetn => Resetn, Q => update_b);
-	regS : regn port map(R => update_s, Clock => Clock, Resetn => Resetn, Q => s_out);
+	regA : regn port map(R => signed(a), Clock => Clk,  Resetn=> Rst, Q => update_a);
+	regB : regn port map(R => signed(b), Clock => Clk,  Resetn=> Rst, Q => update_b);
+	regS : regn port map(R => update_s, Clock => Clk,  Resetn=> Rst, Q => s_out);
 	
 	overflow0 : overflow port map(cout => update_c, sum => update_s, sign => '0', decision => decision_tmp);
 	
-	flipflop0 : flipflop port map(D => decision_tmp, Clock => Clock, Resetn => Resetn, Q=> ovf);
+	flipflop0 : flipflop port map(D => decision_tmp, Clock => Clk, Resetn => Rst, Q=> ovf);
 	
 end behavior;
 

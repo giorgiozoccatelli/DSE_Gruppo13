@@ -10,7 +10,7 @@ architecture behavior of testbench_rca is
 component top_entity is
 	port ( a, b : in std_logic_vector(15 downto 0);
 			 s : out std_logic_vector(15 downto 0);
-			 Clock, Resetn : in std_logic;
+			 Clk, Rst : in std_logic;
 			 ovf : out std_logic
 		  );
 end component;
@@ -19,7 +19,7 @@ signal a_tb, b_tb: std_logic_vector(15 downto 0);
 signal Rst_tb, Clk_tb: std_logic;
 
 begin
-		dut: top_entity PORT MAP (a => a_tb, b => b_tb, Resetn => Rst_tb, Clock => Clk_tb);
+		dut: top_entity PORT MAP (a => a_tb, b => b_tb, Rst => Rst_tb, Clk => Clk_tb);
 		
 	process
 	begin
