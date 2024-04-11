@@ -69,7 +69,7 @@ With the synthesis we want to test the correct functioning of our circuit and we
 \label{fig:time_es1} 
 \end{figure}
 
-In Figure 1 we can see that using a clock signal with a period of 3 ns we obtain a circuit with a maximum operating frequency \textit{f}\textsubscript{max} equal to 406.17 Hz. The same figure also points out that our longest path trough the circuit in terms of delay is the one going from \textit{reg\_b} (one of the two register for the sum terms) to \textit{reg\_sum} (the register storing the result of the sum). By importing our testbench on ModelSim as well as the \textit{.vho} and \textit{.sdo} files we can then analyse the testbench with respect to all the internal signals delays. 
+In Figure 1 we can see that using a clock signal with a period of 3 ns we obtain a circuit with a maximum operating frequency \textit{f}\textsubscript{max} equal to 406.17 MHz. The same figure also points out that our longest path trough the circuit in terms of delay is the one going from \textit{reg\_b} (one of the two register for the sum terms) to \textit{reg\_sum} (the register storing the result of the sum). By importing our testbench on ModelSim as well as the \textit{.vho} and \textit{.sdo} files we can then analyse the testbench with respect to all the internal signals delays. 
 
 \begin{figure}[ht]
 \centering 
@@ -122,19 +122,107 @@ In the synthesis we want to test once again the correct functioning of our circu
 \label{fig:wave_es2} 
 \end{figure}
 
-In Figure XX we can see that this circuit has a maximum operating frequency \textit{f}\textsubscript{max} of 375.66 Hz while once again the longest path in terms of delay is the one going from \textit{reg\_b} (one of the two sum/subtraction terms registers) to \textit{reg\_sum} (the register where we memorize the current result value).
+In Figure 4 we can see that this circuit has a maximum operating frequency \textit{f}\textsubscript{max} of 375.66 MHz while once again the longest path in terms of delay is the one going from \textit{reg\_b} (one of the two sum/subtraction terms registers) to \textit{reg\_sum} (the register where we memorize the current result value).
+
+
 
 \section{16-bit RCA, Carry-Bypass Adder and Carry-Select Adder}
-\subsection{Design entry}
-\subsection{Functional Simulation}
-\subsection{Synthesis}
+\subsection{16-bit RCA}
+\begin{enumerate}
+\item{\textbf{\scalebox{1.2}{Design entry}}}
+\\The design resumes that of section 2, but it is in this case required the implementation of a 16-bit RCA instead of a 4-bit RCA, as can be seen from \textit{sixteenbit\_rca} where 16 different full adders are arranged one in series to another in order to transfer the carry signal. The implementation scheme and the functioning observed by the components (that have simply undergone dimensional adjustments) are the same as for the previous project. The only big difference is that 16-bit input signals can't properly fit the board and for this reason the project is limited to the use of arbitrary input and output signals that do not match the board.
+\item{\textbf{\scalebox{1.2}{Functional Simulation}}}
+\\The implemented testbench has the same structure as the one previously implemented in section 2.2. As can be seen from the \textit{testbench\_rca.vhd} file, arbitrary test signals such as \textit{a\_tb, b\_tb, Clk\_tb} and \textit{Rst\_tb} are created. These signals correspond to those passed by the top entity and, unlike the 4-bit RCA exercise, don't have correspondeces on the board. 
+\item{\textbf{\scalebox{1.2}{Synthesis}}}
+The time analysis is performed by taking into account the worst case delay as shown in the image below.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{time_analysis_es3_1.PNG} 
+    \caption{Internal delays}
+    \label{fig:time_analysis} 
+\end{figure}
+
+The maximum operating frequency \textit{f\textsubscript{max}} is equal to 173.34 MHz.\\
+Starting from the testbench implemented in the \textit{testbench\_rca.vhd} file we can appreciate the correct functioning of the project observing that the result of the sum of two 16-bit numbers is correct and does not present, as expected, the overflow phenomenon. 
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform_es3_1.PNG} 
+    \caption{Overall testbench - 16-bit RCA}
+\end{figure}
+\end{enumerate}
+\subsection{16-bit CBA}
+\begin{enumerate}
+\item{\textbf{\scalebox{1.2}{Design entry}}}
+The Carry Bypass Adder (CBA) is a summer that uses propagate signals \textit{p} to decide the \textit{carry\_out} signal with the help of a multiplexer. The design for a 16-bit CBA consists of 4 blocks (described in the \textit{carry\_bypass\_adder\_4bit.vhd}), each of which includes the 4 full adders (\textit{full\_adder\_4bit.vhd}) and the multiplexer (\textit{mux\_2to1.vhd}). Therefore the circuit as a whole includes a total of 16 full adders and 4 multiplexers that are all enclosed within the  \textit{cba\_16bit.vhd} file.
+\item{\textbf{\scalebox{1.2}{Functional Simulation}}}
+The implemented testbench has the same structure as the one previously implemented in section 2.2 as can be seen from the \textit{cba\_tb.vhd} file.
+\item{\textbf{\scalebox{1.2}{Synthesis}}}
+The time analysis is performed by taking into account the worst case delay as shown in the image below.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{time_analysis_es3_2.PNG} 
+    \caption{Internal delays}
+    \label{fig:time_analysis2} 
+\end{figure}
+
+The maximum operating frequency \textit{f\textsubscript{max}} is equal to 154.63 MHz.\\
+Starting from the testbench implemented in the \textit{cba\_tb.vhd} file we can appreciate the correct functioning of the project observing that the result of the sum of two 16-bit numbers is correct and does not present, as expected, the overflow phenomenon.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform_es3_2.PNG} 
+    \caption{Overall testbench - 16-bit CBA}
+\end{figure}
+\end{enumerate}
+\subsection{16-bit CSA}
+\begin{enumerate}
+\item{\textbf{\scalebox{1.2}{Design entry}}}
+The 16-bit Carry Select Adder (CSA) is a summer that uses 7 different ripple carry adder (\textit{rca\_4bit.vhd}, for a total of 4 full adders for each RCA) and multiplexers and that is fully described in \textit{csa.vhd} file. To realize the project, two types of multiplexer are implemented in the design: 
+\begin{itemize}
+\item 3 4bit-2to1-multiplexers (\textit{mux\_4bit.vhd}) useful for determining the sum result;
+\item 3 1bit-2to1-multiplexers (\textit{mux\_2to1.vhd}) useful to determine the value of carry and transmit it to the next block. 
+\end{itemize}
+For each block, except for the first one where the carry is definitely '0', 2 RCAs are described with the respective input logic signals '1' and '0' representing the input carry.  
+\item{\textbf{\scalebox{1.2}{Functional Simulation}}}
+The implemented testbench has the same structure as the one previously implemented in section 2.2 as can be seen from the \textit{csa\_tb.vhd} file.
+\item{\textbf{\scalebox{1.2}{Synthesis}}}
+The time analysis is performed by taking into account the worst case delay as shown in the image below.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{time_analysis_es3_3.PNG} 
+    \caption{Internal delays}
+    \label{fig:time_analysis3} 
+\end{figure}
+
+The maximum operating frequency \textit{f\textsubscript{max}} is equal to 284.74 MHz.\\
+Starting from the testbench implemented in the \textit{csa\_tb.vhd} file we can appreciate the correct functioning of the project observing that the result of the sum of two 16-bit numbers is correct and does not present, as expected, the overflow phenomenon.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform_es3_3.PNG} 
+    \caption{Overall testbench - 16-bit CSA}
+\end{figure}
+\end{enumerate}
+
+
+
+
+
+
+
+
 
 \section{Multiplier}
 \subsection{Design entry}
+In this last exercise we want to implement a 4-bit multiplier also known as \textit{array multiplier}. As shown in the circuit schematic we can implement this function by only using AND gates and ripple-carry adders. We won't spend much words about the design for the exact fact that the schematic is already given and the functioning of the ripple-carry adder has already been analyzed. The idea is that at every stage (except for the first one) we will pass one bit \textit{b}\textsubscript{x} of the multiplication term \textit{B} that will be the  input to four AND gates while the other four inputs of the gates are given by the result of the previous ripple-carry adder. The top entity is described in the fil \textit{multiplier.vhd} and a display of the result obtained as always trough the 7-segmend displays is given in the file \textit{display\_hexadecimal.vhd}. Please notice that we failed in understanding how to represent all 256 different output values on the displays without writing hundreds of line of code for every case so we implemented the display only for numbers from 0 to 30 to check the correct functioning of the circuit.
 \subsection{Functional Simulation}
+In the functional simulation we implemented a testbench with some configurations to see if the two multiplication terms as well as the result are correctly displayed. The only defines two test signal to simulate switches SW\textsubscript{7-4} and SW\textsubscript{3-0} on the FPGA. 
 \subsection{Synthesis}
-
-
-
+In Figure 11 we can see the wave analysis of our testbench: notice that as required HEX\textsubscript{0} and HEX\textsubscript{1} are used to display the two terms of the sum while HEX\textsubscript{2} and HEX\textsubscript{3} are used for the two multiplication terms.
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.8\textwidth]{wave_es4.png} 
+\caption{Overall testbench}
+\label{fig:wave_es4} 
+\end{figure}
+In the Figure we can see the two configurations displayed in hexadecimal values are $2 \times 3 = 6$ and $1 \times 14 = $14.
 
 \end{document}
