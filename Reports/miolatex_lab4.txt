@@ -1,0 +1,119 @@
+\documentclass{article}
+\sloppy
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Digital Systems Electronics Laboratory 04}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & April 22, 2024 \\ 
+            Delivery date: & March 21, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+\centering 
+%\includegraphics[width=0.6\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill 
+
+\begin{center} 
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+
+\newpage
+\section{Introduction}
+The aim of this laboratory activity is to get familiar with memory elements such as latches, flip-flops, registers and counters. The core of most exercises is based on the development of counters with different purposes and techniques. 
+
+\section{Gated SR latch}
+\subsection{Design Entry}
+Following the description of the SR latch provided in the document, files \textit{sr\_latch.vhd} and \textit{sr\_latch\_tb.vhd} are created. To verify the correct functioning of the implementation, we should take into account the following signals:
+\begin{enumerate}
+    \item \textbf{CK clock}, which is scanned on 4 cycles and at each rising edge of the clock allows the action imposed by the set or reset commands on the output;
+    \item \textbf{R reset}, which if it takes the logical value '1' returns the output to '0';
+    \item \textbf{S set}, which if it takes the logical value '1' allows the transmission of the output signal;
+    \item \textbf{Q output}.
+\end{enumerate}
+\subsection{Functional Simulation}
+The testbench \textit{sr\_latch\_tb.vhd} is designed to check the operation of the set and reset signals and their impact on the output signal. 
+\subsection{Synthesis}
+As visible from the \hyperref[fig:Waveform_es1]{image below}, the behavior of the RS latch is the same as we expected to be.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform1.png} 
+    \caption{Waveform analysis of the SR latch}
+    \label{fig:Waveform_es1} 
+\end{figure}
+\\By observing the \hyperref[fig:immagine2]{Figure 2}, we can also verify that the implemented circuit reflects the expectations.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=1\textwidth]{netlist_view1.pdf} 
+    \caption{Rtl Map Viewer - SR latch}
+    \label{fig:immagine2} 
+\end{figure}
+\
+\section{16-bit synchronous counter}
+\subsection{Design Entry}
+A 16-bit synchronous counter allows you to count up to $2^{n}-1$ by using the working principle of the 16 T-type flip-flops joined together via 15 AND gates. Thanks to the enable and reset signals we can also adjust the counting trend, stopping and restarting respectively.\\
+As mentioned before, the circuit structure requires the description of the top-entity \textit{counter.vhd} and of different components as in the case of \textit{t\_type\_ff.vhd} as well as the description of the components dedicated to the interface with the board, such as \textit{display\_counter.vhd} and \textit{regn.vhd}.
+\subsection{Functional Simulation}
+The description of the testbench (\textit{counter\_tb.vhd}) is relatively simple since it is enough to mark the count through the different clock cycles (\textbf{KEY0\_tb}) and to manipulate the trend through the reset signals (\textbf{SW0\_tb}) and enable (\textbf{SW1\_tb}). Output Q is increased by 1 in each cycle. For optimization reasons, the implementation stops its count at 15, which can be represented in hexadecimal as F by using only one display (\textbf{HEX0}).
+\subsection{Synthesis}
+The counter behavior is correct, as we can see from the \hyperref[fig:Waveform2_es2]{Figure 3}. Note that the actual increase in count is always followed by a subsequent representation of the number on the HEX0 display during the next rising edge of the clock.\\
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform2_es2.jpg} 
+    \label{fig:Waveform2_es2} 
+    \caption{Waveform analysis of the 16-bit synchronous counter}
+\end{figure} 
+The maximum frequency \textit{f\textsubscript{max}} has a value of 282,65 MHz and the total number of logical elements used is 22.
+
+\subsection{4-bit synchronous counter}
+After the realization of the 4-bit version of the circuit (\textit{counter.vhd}), we can look at the RTL Viewer and realize that the configuration obtained is the same as the one we were expecting without any significant difference. See \hyperref[fig:rtl]{Figure 4}.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{rtl_4bit.pdf} 
+    \label{fig:rtl} 
+    \caption{RTL Viewer - 4-bit synchronous counter}
+\end{figure} 
+
+\section{16-bit synchronous counter version 2}
+Referring to the previous section, we can simplify the structure of the code by using the statement $Q <= Q + 1$. Since the components in the top entity are always the same, only the code related to the implementation of the counter is reported, \textit{counter.vhd}.\\
+In this case, since it is a less complex circuit, the total number of logic elements is 16, while the maximum frequency \textit{f\textsubscript{max}} is 367.65 MHz. 
+\subsection{Synthesis}
+The differences in this case between the previous implementation and the current one are substantial, as can be seen in \hyperref[fig:rtl2]{Figure 5}. In fact, the new circuit uses only a D-type fliplflop on which a sum block is iterated in a way that at each rising edge of the clock the Q value is increased by 1 through a loop.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{rtl3.pdf} 
+    \label{fig:rtl2} 
+    \caption{RTL Viewer - 16-bit synchronous counter version 2}
+\end{figure} 
+It is also verified that the complexity of the circuit itself is lower than the previous one while maintaining the correct functioning, as can be seen from the \hyperref[fig:waveform3]{waveform}.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{contatore.png} 
+    \label{fig:waveform3} 
+    \caption{Waveform analysis of the 16-bit synchronous counter version 2}
+\end{figure}
+
+
+
+
+
+
+
+\end{document}
