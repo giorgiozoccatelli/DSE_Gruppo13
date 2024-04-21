@@ -1,0 +1,42 @@
+\documentclass{article}
+\sloppy
+\usepackage[english]{babel}
+\usepackage[a4paper]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+
+\title{Digital Systems Electronics Laboratory 04}
+\author{Group 13\\ \\s295391 Giorgio Zoccatelli\\s295567 Vittorio Macripò}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center}
+	\begin{tabular}{l r}
+		Due Date: & April 22, 2024 \\ 
+            Delivery date: & March 21, 2024 \\
+		Instructor: & Professor Guido Masera
+	\end{tabular}
+\end{center}
+
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.6\textwidth]{Det.jpg} 
+\label{fig:Det} 
+\end{figure}
+
+\vfill 
+
+\begin{center} 
+Politecnico di Torino\\ Accademic Year 2023/24
+\end{center}
+
+\newpage 
+\tableofcontents
+
+\newpage
+\section{Introduction}
+The aim of this laboratory activity is to get familiar with memory elements such as latches, flip-flops, registers and counters. The core of most exercises is based on the development of counters with different purposes ant techniques. 
+
+
+\end{document}
