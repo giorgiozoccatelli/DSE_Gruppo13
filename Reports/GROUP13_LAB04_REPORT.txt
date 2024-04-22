@@ -1,5 +1,5 @@
 \documentclass{article}
-\sloppy
+\usepackage{float}
 \usepackage[english]{babel}
 \usepackage[a4paper]{geometry}
 \usepackage{amsmath}
@@ -39,4 +39,125 @@ Politecnico di Torino\\ Accademic Year 2023/24
 The aim of this laboratory activity is to get familiar with memory elements such as latches, flip-flops, registers and counters. The core of most exercises is based on the development of counters with different purposes ant techniques. 
 
 
+
+\section{Gated SR latch}
+\subsection{Design Entry}
+Following the description of the SR latch provided in the document, files \textit{sr\_latch.vhd} and \textit{sr\_latch\_tb.vhd} are created. To verify the correct functioning of the implementation, we should take into account the following signals:
+\begin{enumerate}
+    \item \textbf{CK clock}, which is scanned on 4 cycles and at each rising edge of the clock allows the action imposed by the set or reset commands on the output;
+    \item \textbf{R reset}, which if it takes the logical value '1' returns the output to '0';
+    \item \textbf{S set}, which if it takes the logical value '1' allows the transmission of the output signal;
+    \item \textbf{Q output}.
+\end{enumerate}
+\subsection{Functional Simulation}
+The testbench \textit{sr\_latch\_tb.vhd} is designed to check the operation of the set and reset signals and their impact on the output signal. 
+\subsection{Synthesis}
+As visible from the image below, the behavior of the RS latch is the same as we expected to be.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.6\textwidth]{waveform1.png} 
+    \caption{Waveform analysis of the SR latch}
+    \label{fig:Waveform_es1} 
+\end{figure}
+\\By observing the Figure 2, we can also verify that the implemented circuit reflects the expectations.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=1\textwidth]{netlist_viewer_1_new.png} 
+    \caption{Rtl Map Viewer - SR latch}
+    \label{fig:immagine2} 
+\end{figure}
+\section{16-bit synchronous counter}
+\subsection{Design Entry}
+A 16-bit synchronous counter allows you to count up to $2^{n}-1$ by using the working principle of the 16 T-type flip-flops joined together via 15 AND gates. Thanks to the enable and reset signals we can also adjust the counting trend, stopping and restarting respectively.\\
+As mentioned before, the circuit structure requires the description of the top-entity \textit{counter.vhd} and of different components as in the case of \textit{t\_type\_ff.vhd} as well as the description of the components dedicated to the interface with the board, such as \textit{display\_counter.vhd} and \textit{regn.vhd}.
+\subsection{Functional Simulation}
+The description of the testbench (\textit{counter\_tb.vhd}) is relatively simple since it is enough to mark the count through the different clock cycles (\textbf{KEY0\_tb}) and to manipulate the trend through the reset signals (\textbf{SW0\_tb}) and enable (\textbf{SW1\_tb}). Output Q is increased by 1 in each cycle. For optimization reasons, the implementation stops its count at 15, which can be represented in hexadecimal as F by using only one display (\textbf{HEX0}).
+\subsection{Synthesis}
+The counter behavior is correct, as we can see from the Figure 3. Note that the actual increase in count is always followed by a subsequent representation of the number on the HEX0 display during the next rising edge of the clock.
+\begin{figure}[htbp]
+    \centering 
+    \includegraphics[width=0.6\textwidth]{waveform2_es2.jpg} 
+    \label{fig:Waveform2_es2} 
+    \caption{Waveform analysis of the 16-bit synchronous counter}
+\end{figure} 
+The maximum frequency \textit{f\textsubscript{max}} has a value of 282,65 MHz and the total number of logical elements used is 22.
+
+\newpage
+\subsection{4-bit synchronous counter}
+After the realization of the 4-bit version of the circuit (\textit{counter.vhd}), we can look at the RTL Viewer and realize that the configuration obtained is the same as the one we were expecting without any significant difference. See Figure 4.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.6\textwidth]{rtl_new_1.png} 
+    \label{fig:rtl} 
+    \caption{RTL Viewer - 4-bit synchronous counter}
+\end{figure} 
+
+
+\section{16-bit synchronous counter version 2}
+Referring to the previous section, we can simplify the structure of the code by using the statement $Q <= Q + 1$. Since the components in the top entity are always the same, only the code related to the implementation of the counter is reported, \textit{counter.vhd}.\\
+In this case, since it is a less complex circuit, the total number of logic elements is 16, while the maximum frequency \textit{f\textsubscript{max}} is 367.65 MHz. 
+\subsection{Synthesis}
+The differences in this case between the previous implementation and the current one are substantial, as can be seen in Figure 5. In fact, the new circuit uses only a D-type fliplflop on which a sum block is iterated in a way that at each rising edge of the clock the Q value is increased by 1 through a loop.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.6\textwidth]{rtl_new_2.png} 
+    \label{fig:rtl2} 
+    \caption{RTL Viewer - 16-bit synchronous counter version 2}
+\end{figure} 
+It is also verified that the complexity of the circuit itself is lower than the previous one while maintaining the correct functioning, as can be seen from the waveform.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.6\textwidth]{contatore.png} 
+    \label{fig:waveform3} 
+    \caption{Waveform analysis of the 16-bit synchronous counter version 2}
+\end{figure}
+
+\section{Flashing digits from 0 to 9}
+\subsection{Design Entry}
+The aim of this exercise is to implement a counter that displays numbers from 0 to 9 driven by a 50 MHz clock signal. Among the different choices for the implementation of this circuit we chose a Johnson Counter. The circuit will work as represented in the following schematic.
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.5\textwidth]{schematic_es4.PNG} 
+\caption{Circuit schematic}
+\label{fig:schematic es 4} 
+\end{figure}
+\\For this circuit we will need:
+\begin{itemize}
+    \item 5 D-type flip-flops to count from 0 to 9 implemented in \textit{flipflop.vhd} .
+    \item A register to store each clock cycle the value to display implemented in \textit{regn.vhd}.
+    \item An encoder to convert the output of the register into the corresponding decimal value displayed on HEX\textsubscript{0} implemented in \textit{display\_counter.vhd}.
+\end{itemize}
+Notice that the clock signal will be provided by the DE1 board referring to it as \textit{CLOCK\_50} while the reset signal will be triggered by KEY\textsubscript{0}. \\The top entity is described in the file \textit{johnson\_counter.vhd}.
+\subsection{Functional Simulation}
+The testbench of the design is reported in the file \textit{johnson\_counter.vhd}. In this testbench we have to set a clock period of 20 ns to respect the clock constraints and of course we will switch the clock signal every half period. We implemented the testbench so that we can see at least a complete cycle from 0 to 9 and then we can test the functionality of the reset.
+\subsection{Synthesis}
+In the synthesis we analyze two aspects: the simulation of our testbench on ModelSim and the time analysis of the delays inside the circuit. For the delays we can see by the following Figure that the worst case delay causes a maximum operative frequency $F\textit{max}=680.74$ MHz.
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.6\textwidth]{time_es4.png} 
+\caption{Time analysis}
+\label{fig:time es 4} 
+\end{figure}
+\\About the testbench simulation we can see in the following Figure (capturing only a portion of the total Wave analysis) the transition on the hexadecimal display of all decimal values from 0 to 9 and the resulting beginning of a new cycle from 0 to 2.
+\begin{figure}[ht]
+\centering 
+\includegraphics[width=0.6\textwidth]{wave_es4.png} 
+\caption{Time analysis}
+\label{fig:wave es 4} 
+\end{figure}
+\\We can also have a look at the RTL viewer to see if the design implemented corresponds to the one drawn previously.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.6\textwidth]{rtl_es4.png} 
+    \label{fig:rtl es4} 
+    \caption{RTL Viewer - Flashing digits}
+\end{figure} 
+
+\newpage
+\section{Reaction timer}
+The aim of this exercise is to implement a reaction timer. Despite the amount of tries to implement the circuit correctly we didn't succeed in making it function properly, anyway we will describe the work done. 
+First of all we want do describe in \textit{delay\_converter.vhd} the conversion from the \textbf{SW\textsubscript{7-0}} to their corresponding contribution into the total delay (we decided to weigh each bit of a value of 1000 ms, so the maximum delay available will be of 8 s). After the delay is set, we send the value to \textit{counter\_delay.vhd} which starts counting until it reaches the delay we chosen previously and after this event it gives as an output a binary signal that enable the real counter beginning. For this second part of the exercise we reused the concept of the Johnson Counter: for each display \textbf{HEX\textit{3-0}} we want to count repeatedly from 0 to 9, so we add again with the proper modifications the designs \textit{flifflop.vhd}, \textit{regn.vhd}, \textit{display\_counter.vhd} and \textit{johnson\_counter.vhd}. We have to make another observation: if we want to see the display updated every ms we need to flash the digit of each 7-segment display with a different frequency. In particular we implemented three frequency divider named \textit{clock\_divider\_10.vhd}, \textit{clock\_divider\_100.vhd} and \textit{clock\_divider\_1000.vhd} to refresh the first three digit of the timer with the proper delay. We also tried to implement three other features: the turn on of \textbf{LEDR\textsubscript{0}} when the count starts, the turn off of the same led when \textbf{KEY\textsubscript{3}} is pressed and the reset of the circuit by pressing of \textbf{KEY\textsubscript{0}}. The top entity of the design is described in \textit{reaction\_timer.vhd} as for the testbench in \textit{reaction\_timer\_tb.vhd}.
+
+
 \end{document}
+
