@@ -1,0 +1,28 @@
+%Entry design
+The One Hot state machine, implemanted in the file \textit{one\_hot\_fsm.vhd} takes advantage of two different signal types:
+\begin{enumerate}
+\item \textbf{current_state} indicating the current state of the machine; 
+\item \textbf{future_state} indicating the future state of the machine.
+\end{enumerate}
+These cases are encoded by a 9-bit binary sequence in which a single bit equal to '1' varies in order to distinguish one state from another.\\
+The functioning of the machine consists in returning '1' as output (\textbf{LEDR0}) following the detection of a sequence of at least 4 identical bits in input (\textbf{SW1}) indistinctly whether they are 0s or 1s and overlapping is allowed.
+
+%Functional Simulation
+The description of the testbench is done in the file \textit{one\_hot\_fsm\_tb.vhd} using the clock signals \textbf{KEY0\_tb}, reset \textbf{SW0\_tb} and input \textbf{SW1\_tb}.
+
+%Synthesis
+In Figure 1, obtained through Modelsim, it can be observed that the results are consistent with the expectations. In fact, after receiving for 5 consecutive clock cycles an input value equal to '1', the output assumes the logical value '1' and then falls back to '0'.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform1.png} 
+    \caption{Waveform analysis - One-Hot Fsm}
+\end{figure}
+
+--------------------------
+As seen in \textit{version2.vhd} the working principle of the exercise is very similar to the previous one, the only substantial difference lies in the encoding of machine states that now have a '1' in the LSB, except for the machine reset state expressed as a 9-bit binary sequence of 0s.\\
+As expected the results obtained by the testbench \textit{version2\_tb.vhd} on Modelsim are the same as the previous exercise, the only difference is the state code as described above.
+\begin{figure}[ht]
+    \centering 
+    \includegraphics[width=0.8\textwidth]{waveform2.png} 
+    \caption{Waveform analysis - One-Hot Fsm version2} 
+\end{figure}
