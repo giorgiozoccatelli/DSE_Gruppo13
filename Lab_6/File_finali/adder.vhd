@@ -1,0 +1,14 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity adder is
+port (a, b: in signed (10 downto 0);
+	 cin: in std_logic;
+	 sum: out signed (10 downto 0));
+end entity;
+
+architecture behavioral of adder is
+begin
+sum <= a + b + ("0000000000" & cin);
+end behavioral;
