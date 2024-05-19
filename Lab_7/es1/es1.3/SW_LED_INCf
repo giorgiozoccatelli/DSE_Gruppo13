@@ -1,4 +1,4 @@
-#define WAIT 5500000 //0.25 hertz
+#define INIT 1000000 //0.25 hertz
 
 int main(void)
 {
@@ -56,7 +56,7 @@ int main(void)
 		  LL_GPIO_WriteReg(GPIOA, ODR, (LL_GPIO_ReadReg(GPIOA, ODR) ^ 0x20));
 	  }
 
-	  for (int j = 0; (j < WAIT/i) & flag; j++) {
+	  for (int j = 0; (j < INIT/i) & flag; j++) {
 		  if (((LL_GPIO_ReadReg(GPIOC, IDR) >> 13) & 0x01) == 0) {
 			  flag = 0;
 		  }
