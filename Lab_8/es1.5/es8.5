@@ -51,7 +51,7 @@ int main(void)
 	  if (LL_ADC_IsActiveFlag_EOCS(ADC1)) {
 		  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
 		  LL_ADC_ClearFlag_EOCS(ADC1);
-		  ComparatorUpdate = round(LL_ADC_REG_ReadConversionData(ADC1));
+		  ComparatorUpdate = round(20 + LL_ADC_REG_ReadConversionData(ADC1));
 		  LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
 	  }
 	  else {
