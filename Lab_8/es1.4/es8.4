@@ -47,7 +47,7 @@ int main(void)
 	  		  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
 	  		  LL_TIM_WriteReg(TIM3, SR, LL_TIM_ReadReg(TIM3, SR) &~ (1 << 1));
 	  		  LL_GPIO_WriteReg(GPIOA, ODR, LL_TIM_ReadReg(GPIOA, ODR) ^ (1 << 6));
-	  		  LL_TIM_WriteReg(TIM3, CCR1, LL_TIM_ReadReg(TIM3, CNT) + 8000);
+	  		  LL_TIM_WriteReg(TIM3, CCR1, LL_TIM_ReadReg(TIM3, CNT) + 8400);
 	  		  LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
 	  	  }
 
@@ -55,7 +55,7 @@ int main(void)
 			  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
 			  LL_TIM_WriteReg(TIM3, SR, LL_TIM_ReadReg(TIM3, SR) &~ (1 << 2));
 			  LL_GPIO_WriteReg(GPIOA, ODR, LL_GPIO_ReadReg(GPIOA, CNT));
-			  LL_TIM_WriteReg(TIM3, CCR2, LL_TIM_ReadReg(TIM3, CNT) + 1600);
+			  LL_TIM_WriteReg(TIM3, CCR2, LL_TIM_ReadReg(TIM3, CNT) + 1680);
 			  LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP);
 	  	  }
     /* USER CODE BEGIN 3 */
