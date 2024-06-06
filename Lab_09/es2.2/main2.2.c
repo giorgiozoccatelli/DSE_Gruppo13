@@ -165,8 +165,8 @@ void SystemClock_Config(void)
   {
 
   }
-  LL_Init1msTick(42000000);
-  LL_SetSystemCoreClock(42000000);
+  LL_Init1msTick(16000000);
+  LL_SetSystemCoreClock(16000000);
   LL_RCC_SetTIMPrescaler(LL_RCC_TIM_PRESCALER_TWICE);
 }
 

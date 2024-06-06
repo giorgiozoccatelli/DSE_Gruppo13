@@ -72,38 +72,26 @@ void TIM3_IRQHandler(void)
  if (LL_TIM_IsActiveFlag_CC1(TIM3)) 
  { 
  
-LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
- // freeze counter for debug purpose
- LL_TIM_ClearFlag_CC1(TIM3); 
- // clearing pending flag 
- LL_TIM_OC_SetCompareCH1(TIM3, LL_TIM_GetCounter(TIM3) + 5); 
- // update compare register
- 
-LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
+  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
+  LL_TIM_ClearFlag_CC1(TIM3); 
+  LL_TIM_OC_SetCompareCH1(TIM3, LL_TIM_GetCounter(TIM3) + 5); 
+  LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
  } 
  if (LL_TIM_IsActiveFlag_CC2(TIM3)) 
  { 
  
-LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
- // freeze counter for debug purpose 
- LL_TIM_ClearFlag_CC2(TIM3); 
- // clearing pending flag
- LL_TIM_OC_SetCompareCH2(TIM3, LL_TIM_GetCounter(TIM3) + 10);
- // update compare register
-  
- LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
+  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
+  LL_TIM_ClearFlag_CC2(TIM3); 
+  LL_TIM_OC_SetCompareCH2(TIM3, LL_TIM_GetCounter(TIM3) + 10);
+  LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
   } 
   if (LL_TIM_IsActiveFlag_CC3(TIM3)) 
   { 
   
- LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
-  // freeze counter for debug purpose
+  LL_DBGMCU_APB1_GRP1_FreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
   LL_TIM_ClearFlag_CC3(TIM3); 
-  // clearing pending flag
   LL_TIM_OC_SetCompareCH3(TIM3, LL_TIM_GetCounter(TIM3) + 20);   
-  // update compare register 
-  
- LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
+  LL_DBGMCU_APB1_GRP1_UnFreezePeriph(LL_DBGMCU_APB1_GRP1_TIM3_STOP); 
   } 
   /* USER CODE END TIM3_IRQn 0 */ 
   /* USER CODE BEGIN TIM3_IRQn 1 */ 
