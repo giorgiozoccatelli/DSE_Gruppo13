@@ -2,9 +2,7 @@
 
 ## Info utili 
 
-Per usare la repository correttamente, carica i file nelle sottosezioni adatte:  
-\-Ogni lab ha la sua cartella  
-\-Ogni cartella ha 3 sottosezioni: per il design, per il testbench e per la sintesi  
-\-Se avete problemi con parti di codice pubblicate i problemi commentati su Issues  
-\-Se avete problemi di carattere generale scrivete nella sezione Discussions  
-\-Ignorate i file deleteme.html che servono solo alla creazione delle cartelle  
+-I primi due lab sono suddivisi nei 3 topic principali per ogni esercizio, mentre dal lab 3 le cartelle sono suddivise per esercizi
+-Nella cartella report manca il report dei Lab 7
+-Il Lab 10 non è stato fatto
+-Per il Lab06 fare riferimento alla sottocartella File_finali
